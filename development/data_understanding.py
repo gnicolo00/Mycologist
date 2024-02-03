@@ -16,3 +16,6 @@ print("Dataset columns:")
 for index, column in enumerate(dataset.columns, start=1):
     print(f"{index}. {column}")
 print("\n---------------------------------------------\n")
+
+# Analisi della classe da predire
+print(f"Class to predict: {dataset['class'].unique()}", end="\n\n---------------------------------------------\n\n")

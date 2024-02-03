@@ -10,3 +10,9 @@ print(dataset, end="\n\n---------------------------------------------\n\n")
 
 # Conteggio delle righe del dataset
 print(f"Dataset samples count: {len(dataset)-1}", end="\n\n---------------------------------------------\n\n")
+
+# Analisi delle colonne del dataset
+print("Dataset columns:")
+for index, column in enumerate(dataset.columns, start=1):
+    print(f"{index}. {column}")
+print("\n---------------------------------------------\n")

@@ -42,7 +42,7 @@ print(missing_values_count, end="\n\n-------------------------------------------
 dataset1_path = os.path.join("..", "datasets", "mushrooms_nan")
 dataset1.to_csv(dataset1_path, index=False)
 
-
+"""
 # Creazione di due dataset differenti: uno in cui tutti i funghi sono commestibili e l'altro in cui tutti sono velenosi
 dataset_edible = dataset[dataset['class'] == 'e']
 dataset_poisonous = dataset[dataset['class'] == 'p']
@@ -69,7 +69,7 @@ for column in dataset.columns[1:]:
     plt.legend(["Edible", "Poisonous"])
     # Visualizzazione dell'istogramma
     plt.show()
-
+"""
 
 # Conversione delle variabili categoriche in variabili numeriche (encoding), necessario per creare la heatmap
 dataset2 = pd.DataFrame(dataset1)
@@ -106,4 +106,9 @@ heatmap = sns.heatmap(correlations, cmap="hot", vmin=-1, vmax=1, annot=True, ann
                       cbar_kws={"shrink": 0.7}, square=True, ax=ax)
 heatmap.set_xticklabels(heatmap.get_xticklabels(), fontsize=5)
 heatmap.set_yticklabels(heatmap.get_yticklabels(), fontsize=5)
+plt.show()
+
+# Controllo del bilanciamento della classe da predire
+plt.pie(dataset2['poisonous'].value_counts(), labels=['Edible', 'Poisonous'], colors=["#E1CDC2", "#D50630"],
+        explode=(0, 0.015), autopct="%0.2f", startangle=90, textprops={'fontsize': 11})
 plt.show()

@@ -48,10 +48,12 @@ dataset_edible = dataset[dataset['class'] == 'e']
 dataset_poisonous = dataset[dataset['class'] == 'p']
 # Creazione degli istogrammi relativi alla distribuzione delle classi rispetto a ciascuna caratteristica del dataset
 for column in dataset.columns[1:]:
+    # Chiusura di tutte le figure "aperte" per evitare sovrapposizioni e visualizzazione distorta degli istogrammi
+    plt.close("all")
     # Inizializzazione di un array contenente tutti i valori che la colonna può assumere
     unique_values = dataset[column].unique()
     # Inizializzazione di un array contenente valori da 0 al numero di valori della colonna, che corrisponderà al numero
-    # dei bins (barre verticali) contenuti nell'istogramma. Si sottrae 0.5 per centrare il bin rispetto al valore
+    # dei bins (barre verticali) contenuti nell'istogramma. Si sottrae 0.5 per centrare il bin rispetto all'etichetta
     bins = np.arange(len(unique_values) + 1) - 0.5
 
     # Creazione dell'istogramma
@@ -67,8 +69,9 @@ for column in dataset.columns[1:]:
     plt.ylabel("Frequency")
     # Creazione della legend dell'istogramma
     plt.legend(["Edible", "Poisonous"])
-    # Visualizzazione dell'istogramma
-    plt.savefig("../plots/histograms/" + column + "_distribution.png")
+    # Salvataggio dell'istogramma
+    plt.savefig(os.path.join("..", "plots", "histograms", column + "_distribution.png"), format="png")
+    # plt.show()
 
 
 # Conversione delle variabili categoriche in variabili numeriche (encoding), necessario per creare la heatmap
@@ -97,7 +100,7 @@ dataset2.to_csv(dataset2_path, index=False)
 
 # Calcolo delle correlazioni tra le features del dataset
 correlations = dataset2[dataset2.columns[1:]].corr()
-# Risoluzione dell'immagine
+# Risoluzione dell'immagine contenente la heatmap
 fig, ax = plt.subplots(figsize=(8, 7))
 # Posizionamento della heatmap all'interno dell'immagine
 fig.subplots_adjust(left=0.15, right=1, top=1, bottom=0.1)
@@ -106,13 +109,18 @@ heatmap = sns.heatmap(correlations, cmap="hot", vmin=-1, vmax=1, annot=True, ann
                       cbar_kws={"shrink": 0.7}, square=True, ax=ax)
 heatmap.set_xticklabels(heatmap.get_xticklabels(), fontsize=5)
 heatmap.set_yticklabels(heatmap.get_yticklabels(), fontsize=5)
-plt.savefig("../plots/heatmap.png")
+# Salvataggio della heatmap
+plt.savefig(os.path.join("..", "plots", "heatmap.png"), format="png")
+# plt.show()
 
-# Controllo del bilanciamento della classe da predire
-# Risoluzione dell'immagine
+
+# Risoluzione dell'immagine contenete il pie plot
 fig, ax = plt.subplots(figsize=(7, 6))
-# Posizionamento della heatmap all'interno dell'immagine
+# Posizionamento del pie plot all'interno dell'immagine
 fig.subplots_adjust(left=0, right=1, top=1, bottom=0.1)
+# Creazione del pie plot per controllare il bilanciamento della classe da predire
 plt.pie(dataset2['poisonous'].value_counts(), labels=['Edible', 'Poisonous'], colors=["#E1CDC2", "#D50630"],
         explode=(0, 0.015), autopct="%0.2f", startangle=90, textprops={'fontsize': 11})
-plt.savefig("../plots/balancing.png")
+# Salvataggio del pie plot
+plt.savefig(os.path.join("..", "plots", "balancing.png"), format="png")
+#plt.show()

@@ -39,7 +39,7 @@ boolean_dataset = dataset1.isna()
 missing_values_count = boolean_dataset.sum()
 print(missing_values_count, end="\n\n---------------------------------------------\n\n")
 # Salvataggio delle modifiche
-dataset1_path = os.path.join("..", "datasets", "mushrooms_nan")
+dataset1_path = os.path.join("..", "datasets", "mushrooms_nan.csv")
 dataset1.to_csv(dataset1_path, index=False)
 
 
@@ -94,7 +94,7 @@ for column in dataset2.columns:
 # Cambio del nome della colonna relativa alla variabile dipendente
 dataset2 = dataset2.rename(columns={'class': 'poisonous'})
 # Salvataggio delle modifiche
-dataset2_path = os.path.join("..", "datasets", "mushrooms_numbers")
+dataset2_path = os.path.join("..", "datasets", "mushrooms_numbers.csv")
 dataset2.to_csv(dataset2_path, index=False)
 
 

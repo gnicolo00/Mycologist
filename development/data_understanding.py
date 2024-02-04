@@ -76,11 +76,25 @@ for column in dataset.columns[1:]:
 
 # Conversione delle variabili categoriche in variabili numeriche (encoding), necessario per creare la heatmap
 dataset2 = pd.DataFrame(dataset1)
+nan_indices = None
 for column in dataset2.columns:
     # Salvataggio della colonna prima dell'operazione di encoding
     column_before = pd.unique(dataset2[column])
+
+    # Salvataggio degli indici dei valori nulli (presenti solo nella colonna 'stalk-root')
+    if column == "stalk-root":
+        nan_indices = dataset2[column].index[dataset2[column].isna()].tolist()
+
     # Label encoding
-    dataset2[column] = LabelEncoder().fit_transform(dataset1[column])
+    dataset2[column] = LabelEncoder().fit_transform(dataset2[column])
+
+    if nan_indices is not None:
+        # Ripristino dei valori nulli, annullando l'operazione di encoding per essi
+        dataset2.loc[nan_indices, column] = np.nan
+        # Conversione in int poiché np.nan è float, causando al suo inserimento una conversione implicita a float di
+        # ogni valore della colonna
+        dataset2[column] = dataset2[column].astype("Int64")
+        nan_indices = None
     # Salvataggio della colonna dopo l'operazione di encoding
     column_after = pd.unique(dataset2[column])
 

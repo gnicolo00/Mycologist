@@ -20,3 +20,12 @@ dataset2["stalk-root"] = dataset1["stalk-root"].fillna(dataset1["stalk-root"].mo
 # Salvataggio delle modifiche
 dataset2_path = os.path.join("..", "datasets", "mushrooms_imputed.csv")
 dataset2.to_csv(dataset2_path, index=False)
+
+# Data splitting (80-20) casuale per ottenere il dataset di training e il dataset di test
+test_dataset = dataset2.sample(1620)
+# Salvataggio del dataset di test
+test_dataset.to_csv(os.path.join("..", "datasets", "mushrooms_test.csv"), index=False)
+# Eliminazione delle righe estratte dal dataset originale
+training_dataset = dataset2.drop(test_dataset.index)
+# Salvataggio del dataset di training
+training_dataset.to_csv(os.path.join("..", "datasets", "mushrooms_training.csv"), index=False)

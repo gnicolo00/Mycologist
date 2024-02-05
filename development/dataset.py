@@ -39,8 +39,7 @@ boolean_dataset = dataset1.isna()
 missing_values_count = boolean_dataset.sum()
 print(missing_values_count, end="\n\n---------------------------------------------\n\n")
 # Salvataggio delle modifiche
-dataset1_path = os.path.join("..", "datasets", "mushrooms_nan.csv")
-dataset1.to_csv(dataset1_path, index=False)
+dataset1.to_csv(os.path.join("..", "datasets", "mushrooms_nan.csv"), index=False)
 
 
 # Creazione di due dataset differenti: uno in cui tutti i funghi sono commestibili e l'altro in cui tutti sono velenosi
@@ -64,14 +63,13 @@ for column in dataset.columns[1:]:
     plt.xlabel(column.replace('-', ' ').capitalize())
     # Vengono create tante etichette quanto il numero di valori che la colonna può assumere, e ogni etichetta viene
     # posizionata alla posizione corrispondente
-    plt.xticks(range(len(unique_values)), unique_values)
+    #plt.xticks(range(len(unique_values)), unique_values)
     # Creazione dell'etichetta principale sull'asse y dell'istogramma
     plt.ylabel("Frequency")
     # Creazione della legend dell'istogramma
     plt.legend(["Edible", "Poisonous"])
     # Salvataggio dell'istogramma
     plt.savefig(os.path.join("..", "plots", "histograms", column + "_distribution.png"), format="png")
-    # plt.show()
 
 
 # Conversione delle variabili categoriche in variabili numeriche (encoding), necessario per creare la heatmap
@@ -108,8 +106,7 @@ for column in dataset2.columns:
 # Cambio del nome della colonna relativa alla variabile dipendente
 dataset2 = dataset2.rename(columns={'class': 'poisonous'})
 # Salvataggio delle modifiche
-dataset2_path = os.path.join("..", "datasets", "mushrooms_numbers.csv")
-dataset2.to_csv(dataset2_path, index=False)
+dataset2.to_csv(os.path.join("..", "datasets", "mushrooms_numbers.csv"), index=False)
 
 
 # Calcolo delle correlazioni tra le features del dataset
@@ -125,7 +122,6 @@ heatmap.set_xticklabels(heatmap.get_xticklabels(), fontsize=5)
 heatmap.set_yticklabels(heatmap.get_yticklabels(), fontsize=5)
 # Salvataggio della heatmap
 plt.savefig(os.path.join("..", "plots", "heatmap.png"), format="png")
-# plt.show()
 
 
 # Risoluzione dell'immagine contenete il pie plot
@@ -137,4 +133,16 @@ plt.pie(dataset2['poisonous'].value_counts(), labels=['Edible', 'Poisonous'], co
         explode=(0, 0.015), autopct="%0.2f", startangle=90, textprops={'fontsize': 11})
 # Salvataggio del pie plot
 plt.savefig(os.path.join("..", "plots", "balancing.png"), format="png")
-#plt.show()
+
+
+# Eliminazione delle colonne inadeguate alla soluzione
+dataset3 = dataset2.drop(["odor", "gill-attachment", "veil-type", "veil-color"], axis=1)
+# Salvataggio delle modifiche
+dataset3.to_csv(os.path.join("..", "datasets", "mushrooms_deleted.csv"), index=False)
+
+
+# Imputazione con valore unico sulla colonna con valori mancanti, utilizzando la moda
+dataset4 = pd.DataFrame(dataset3)
+dataset4["stalk-root"] = dataset3["stalk-root"].fillna(dataset3["stalk-root"].mode()[0])
+# Salvataggio delle modifiche
+dataset4.to_csv(os.path.join("..", "datasets", "mushrooms_imputed.csv"), index=False)

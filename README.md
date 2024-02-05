@@ -1,4 +1,4 @@
-<p style="text-align: center">
+<p align="center">
     <img src="https://raw.githubusercontent.com/gnicolo00/Mycologist/main/Mycologist-logo.png" width="400" alt="logo-Mycologist">
 </p>
 

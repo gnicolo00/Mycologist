@@ -59,11 +59,10 @@ for column in dataset.columns[1:]:
     plt.hist([dataset_edible[column], dataset_poisonous[column]], color=["#E1CDC2", "#D50630"], edgecolor='black',
              alpha=0.8, stacked=True, rwidth=0.5, bins=bins)
 
-    # Creazione dell'etichetta principale sull'asse x dell'istogramma
+    # Definizione delle etichette presenti sull'asse x e sull'asse y dell'istogramma
     plt.xlabel(column.replace('-', ' ').capitalize())
-    # Creazione dell'etichetta principale sull'asse y dell'istogramma
     plt.ylabel("Frequency")
-    # Creazione della legend dell'istogramma
+    # Definizione della legend dell'istogramma
     plt.legend(["Edible", "Poisonous"])
     # Salvataggio dell'istogramma
     plt.savefig(os.path.join("..", "plots", "histograms", column + "_distribution.png"), format="png")

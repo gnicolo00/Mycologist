@@ -61,9 +61,6 @@ for column in dataset.columns[1:]:
 
     # Creazione dell'etichetta principale sull'asse x dell'istogramma
     plt.xlabel(column.replace('-', ' ').capitalize())
-    # Vengono create tante etichette quanto il numero di valori che la colonna può assumere, e ogni etichetta viene
-    # posizionata alla posizione corrispondente
-    #plt.xticks(range(len(unique_values)), unique_values)
     # Creazione dell'etichetta principale sull'asse y dell'istogramma
     plt.ylabel("Frequency")
     # Creazione della legend dell'istogramma
